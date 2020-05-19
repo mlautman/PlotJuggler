@@ -199,3 +199,10 @@ endif()
 install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/plotjuggler.svg
     DESTINATION ${DESKTOP_ICON_DIR}  )
 
+
+###################  Always Last  ###################
+if(COMPILING_WITH_CATKIN)
+elseif(COMPILING_WITH_AMENT)
+    find_package(ament_cmake REQUIRED)
+    ament_package()
+endif()

@@ -13,6 +13,7 @@
 
 <!-- ROS1 dependencies -->
 <buildtool_depend condition="$ROS_VERSION == 1">catkin</buildtool_depend>
+<buildtool_depend condition="$ROS_VERSION == 2">ament_cmake</buildtool_depend>
 
 <depend condition="$ROS_VERSION == 1">rosbag_storage</depend>
 <depend condition="$ROS_VERSION == 1">roscpp</depend>
@@ -44,6 +45,6 @@
 <!-- The export tag contains other, unspecified, tags -->
 <export>
 <!-- Other tools can request additional information be placed here -->
-
+    <build_type condition="$ROS_VERSION == 2">ament_cmake</build_type>
 </export>
 </package>

@@ -123,10 +123,10 @@ elseif(COMPILING_WITH_AMENT)
         ${PLUGIN_BASE_DIR}/datastreamer_base.h )
     target_link_libraries( DataStreamROS2  commonROS fastcdr)
     ament_target_dependencies( DataStreamROS2 ${AMENT_DEPENDECIES})
+
 endif()
 
 #######################################################################
-
 
 if(COMPILING_WITH_CATKIN)
     install(TARGETS
