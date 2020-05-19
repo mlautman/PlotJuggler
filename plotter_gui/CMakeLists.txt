@@ -90,5 +90,8 @@ if(COMPILING_WITH_CATKIN)
         DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
     )
 else()
-    install(TARGETS PlotJuggler DESTINATION bin  )
+    install(
+        TARGETS PlotJuggler
+        DESTINATION lib/${PROJECT_NAME}
+    )
 endif()
