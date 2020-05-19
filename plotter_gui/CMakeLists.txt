@@ -70,7 +70,11 @@ SET( PLOTTER_SRC
     ../include/PlotJuggler/statepublisher_base.h
     )
 
-add_executable(PlotJuggler ${PLOTTER_SRC} ${RES_SRC} ${UI_SRC} ${BACKWARD_ENABLE})
+add_executable(PlotJuggler
+    ${PLOTTER_SRC}
+    ${RES_SRC}
+    ${UI_SRC}
+    ${BACKWARD_ENABLE})
 add_backward(PlotJuggler)
 
 target_link_libraries(PlotJuggler
@@ -90,5 +94,14 @@ if(COMPILING_WITH_CATKIN)
         DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
     )
 else()
-    install(TARGETS PlotJuggler DESTINATION bin  )
+    # ament_target_dependencies(PlotJuggler)
+    install(
+        TARGETS PlotJuggler
+        DESTINATION lib/${PROJECT_NAME}
+    )
+    # install(
+    #     TARGETS PlotJuggler
+    #     DESTINATION bin
+    # )
+
 endif()

@@ -25,5 +25,12 @@ if(COMPILING_WITH_CATKIN)
         LIBRARY DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION} )
 else()
+    # ament_export_libraries(DataLoadULog)
     install(TARGETS DataLoadULog DESTINATION bin  )
+    install(TARGETS DataLoadULog
+      ARCHIVE DESTINATION lib
+      LIBRARY DESTINATION lib
+      RUNTIME DESTINATION bin
+    )
+
 endif()

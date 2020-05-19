@@ -22,10 +22,9 @@ SET( COMMON_SRC
 
 set(PLUGIN_BASE_DIR ${PROJECT_SOURCE_DIR}/include/PlotJuggler)
 
-#############
-
+#############  Create Libraries  #############
 if(COMPILING_WITH_CATKIN)
-
+    #############  Catkin  #############
     include_directories(
         ./ ../
         ${PROJECT_SOURCE_DIR}/include/
@@ -74,8 +73,9 @@ if(COMPILING_WITH_CATKIN)
         ${PLUGIN_BASE_DIR}/statepublisher_base.h
         )
     target_link_libraries( RosoutPublisher commonROS )
-#######################################################################
+
 elseif(COMPILING_WITH_AMENT)
+    #############  Colcon  #############
 
     find_package(ament_cmake REQUIRED)
     find_package(rclcpp REQUIRED)
@@ -103,6 +103,7 @@ elseif(COMPILING_WITH_AMENT)
         fastcdr
         rosbag2_transport )
 
+    #############
     add_library( commonROS STATIC ${COMMON_SRC} ${COMMON_UI_SRC})
     target_compile_definitions(commonROS PUBLIC DISABLE_RULE_EDITING)
     target_link_libraries( commonROS
@@ -110,6 +111,8 @@ elseif(COMPILING_WITH_AMENT)
         ${Qt5Xml_LIBRARIES}
         fastcdr)
     ament_target_dependencies( commonROS ${AMENT_DEPENDECIES})
+    # Export the libraries
+    ament_export_libraries(commonROS)
 
     #############
     add_library( DataLoadROS2 SHARED
@@ -117,18 +120,26 @@ elseif(COMPILING_WITH_AMENT)
         ${PLUGIN_BASE_DIR}/dataloader_base.h )
     target_link_libraries( DataLoadROS2 commonROS)
     ament_target_dependencies( DataLoadROS2 ${AMENT_DEPENDECIES})
+    # Export the libraries
+    ament_export_libraries(DataLoadROS2)
+
     #############
     add_library( DataStreamROS2 SHARED
         DataStreamROS2/datastream_ros2.cpp
         ${PLUGIN_BASE_DIR}/datastreamer_base.h )
     target_link_libraries( DataStreamROS2  commonROS fastcdr)
     ament_target_dependencies( DataStreamROS2 ${AMENT_DEPENDECIES})
+
+    # Export the libraries
+    ament_export_libraries(DataStreamROS2)
+
+else()
+    #############  Building without ROS  #############
 endif()
 
-#######################################################################
-
-
+#########################  Install Libs  #########################
 if(COMPILING_WITH_CATKIN)
+    #############  Catkin  #############
     install(TARGETS
         DataLoadROS
         DataStreamROS
@@ -136,9 +147,20 @@ if(COMPILING_WITH_CATKIN)
         RosoutPublisher
         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
         )
+
 elseif(COMPILING_WITH_AMENT)
+    #############  Colcon  #############
+    # Libraries
     install(TARGETS
+        commonROS
         DataLoadROS2
         DataStreamROS2
-        DESTINATION bin  )
+      ARCHIVE DESTINATION lib
+      LIBRARY DESTINATION lib
+      RUNTIME DESTINATION bin
+    )
+
+else()
+    #############  Building without ROS  #############
+
 endif()

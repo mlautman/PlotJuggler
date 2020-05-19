@@ -169,10 +169,10 @@ else()
     if( NOT Qt5WebSockets_FOUND)
         message(STATUS "Qt5WebSockets not found. Skipping plugins/DataStreamWebSocket")
     else()
+        message(STATUS "Qt5WebSockets_FOUND building plugins/DataStreamWebSocket")
         add_subdirectory( plugins/DataStreamWebSocket )
     endif()
 endif()
-
 
 if(COMPILING_WITH_CATKIN)
     add_subdirectory( plugins/ROS )
@@ -199,3 +199,14 @@ endif()
 install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/plotjuggler.svg
     DESTINATION ${DESKTOP_ICON_DIR}  )
 
+#########################  Always Last  ####################################
+if(COMPILING_WITH_CATKIN)
+    # ROS 1
+
+elseif(COMPILING_WITH_AMENT)
+    # ROS 2
+    ament_package()
+
+else()
+    # Non ROS
+endif()
