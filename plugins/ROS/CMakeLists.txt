@@ -140,5 +140,7 @@ elseif(COMPILING_WITH_AMENT)
     install(TARGETS
         DataLoadROS2
         DataStreamROS2
-        DESTINATION bin  )
+      DESTINATION lib/${PROJECT_NAME}
+    )
+
 endif()

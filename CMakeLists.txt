@@ -25,15 +25,19 @@ if( CATKIN_DEVEL_PREFIX OR catkin_FOUND OR CATKIN_BUILD_BINARY_PACKAGE)
         CATKIN_DEPENDS ${ROS_DEPENDENCIES}  )
 
 elseif( DEFINED ENV{AMENT_PREFIX_PATH})
+
     set(COMPILING_WITH_AMENT 1)
 
     message(STATUS "---------------------------------------------------------------------")
     message(STATUS "PlotJuggler is being built using AMENT. ROS2 plugins will be compiled")
     message(STATUS "---------------------------------------------------------------------")
+
 else()
+
     message(STATUS "---------------------------------------------------------------------")
     message(STATUS "PlotJuggler is being WITHOUT any ROS support")
     message(STATUS "---------------------------------------------------------------------")
+
 endif()
 
 cmake_policy (SET CMP0020 NEW)
@@ -69,7 +73,6 @@ if(APPLE AND EXISTS /usr/local/opt/qt5)
     set(CMAKE_MACOSX_RPATH 1)
 endif()
 
-
 find_package(Qt5 REQUIRED COMPONENTS
     Core
     Widgets
@@ -101,6 +104,7 @@ if( NOT Qt5WebSockets_FOUND)
     message(STATUS "Can't find Qt5WebSockets in your system. Have you tried [sudo apt-get install libqt5websockets5-dev] ?")
     add_definitions( -DQWT_NO_SVG )
 else()
+    message(STATUS "Qt5WebSockets FOUND building plugins/DataStreamWebSocket")
     set( QT_LINK_LIBRARIES ${QT_LINK_LIBRARIES} Qt5::WebSockets)
 endif()
 
@@ -142,12 +146,14 @@ if(COMPILING_WITH_CATKIN)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION})
 
 elseif(COMPILING_WITH_AMENT)
+    # Pass
 
 else()
     set(CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 endif()
 
 #############################################################
